@@ -12,7 +12,6 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-
   late final List<Task> _tasks;
 
   @override
@@ -20,11 +19,31 @@ class _MainScreenState extends State<MainScreen> {
     super.initState();
 
     _tasks = [
-      Task(taskName: "Eat Breakfast", taskCompleted: false, onChanged: (p0){}),
-      Task(taskName: "Do something fun", taskCompleted: true, onChanged: (p0){}),
-      Task(taskName: "Share memes", taskCompleted: false, onChanged: (p0){}),
-      Task(taskName: "Eat, Sleep and play", taskCompleted: true, onChanged: (p0){}),
+      Task(
+          taskName: "Eat Breakfast",
+          taskCompleted: false,
+          onChanged: (value) => checkboxChanged(value, 0)),
+      Task(
+          taskName: "Do something fun",
+          taskCompleted: true,
+          onChanged: (value) => checkboxChanged(value, 1)),
+      Task(
+          taskName: "Share memes",
+          taskCompleted: false,
+          onChanged: (value) => checkboxChanged(value, 2)),
+      Task(
+          taskName: "Eat, Sleep and play",
+          taskCompleted: true,
+          onChanged: (value) => checkboxChanged(value, 3)),
     ];
+  }
+
+  //  checkbox was tapped
+  void checkboxChanged(bool? value, int index) {
+    //  change the values in the list
+    setState(() {
+
+    });
   }
 
   @override
@@ -42,9 +61,13 @@ class _MainScreenState extends State<MainScreen> {
             itemCount: _tasks.length,
             physics: const BouncingScrollPhysics(),
             itemBuilder: (context, index) {
-              return TodoCard(task: _tasks[index],);
+              return TodoCard(
+                task: _tasks[index],
+              );
             },
-            separatorBuilder: (BuildContext context, int index) => SizedBox(height: 24,),
+            separatorBuilder: (BuildContext context, int index) => SizedBox(
+              height: 24,
+            ),
           ),
         ),
       ),
