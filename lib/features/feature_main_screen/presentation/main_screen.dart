@@ -54,9 +54,11 @@ class _MainScreenState extends State<MainScreen> {
             itemBuilder: (context, index) {
               return TodoCard(
                 task: tasks[index],
-                onChanged: (value) =>
-                    Provider.of<TasksProvider>(context, listen: false)
-                        .checkboxChanged(value!, index),
+                onChanged: (value) {
+                  Provider.of<TasksProvider>(context, listen: false)
+                      .checkboxChanged(value!, index);
+                },
+                onDelete: (context){},
               );
             },
             separatorBuilder: (BuildContext context, int index) =>
