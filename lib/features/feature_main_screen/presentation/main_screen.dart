@@ -14,12 +14,10 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-
   @override
   Widget build(BuildContext context) {
-
     final List<Task> tasks = Provider.of<TasksProvider>(context).getTasks;
-    
+
     return AnnotatedRegion(
       value: SystemUiOverlayStyle(
           systemNavigationBarColor: Colors.deepOrange.shade100,
@@ -27,6 +25,14 @@ class _MainScreenState extends State<MainScreen> {
       child: Scaffold(
         backgroundColor: Colors.deepOrange.shade100,
         appBar: mainAppBar(),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.deepOrange.shade300,
+          onPressed: () {},
+          child: const Icon(
+            Icons.add,
+            color: Colors.white,
+          ),
+        ),
         body: Padding(
           padding: const EdgeInsets.all(16),
           child: ListView.separated(
@@ -35,7 +41,9 @@ class _MainScreenState extends State<MainScreen> {
             itemBuilder: (context, index) {
               return TodoCard(
                 task: tasks[index],
-                onChanged: (value) => Provider.of<TasksProvider>(context, listen: false).checkboxChanged(value!, index),
+                onChanged: (value) =>
+                    Provider.of<TasksProvider>(context, listen: false)
+                        .checkboxChanged(value!, index),
               );
             },
             separatorBuilder: (BuildContext context, int index) =>

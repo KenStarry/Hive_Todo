@@ -13,7 +13,7 @@ class TodoCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
           color: Colors.deepOrange.shade300,
           borderRadius: BorderRadius.circular(12)),
@@ -28,6 +28,7 @@ class TodoCard extends StatelessWidget {
           //  task name
           Text(task.taskName,
           style: TextStyle(
+            fontSize: 16,
             decoration: task.taskCompleted ? TextDecoration.lineThrough : TextDecoration.none
           ),),
         ],
