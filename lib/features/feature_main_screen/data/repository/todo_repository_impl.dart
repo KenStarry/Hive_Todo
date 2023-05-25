@@ -1,17 +1,12 @@
 import 'package:hive/hive.dart';
 import 'package:hive_todo/features/feature_main_screen/data/utils/constants.dart';
+import 'package:hive_todo/features/feature_main_screen/dependency_injection/locator.dart';
 import 'package:hive_todo/features/feature_main_screen/domain/models/task.dart';
 import 'package:hive_todo/features/feature_main_screen/domain/repository/todo_repository.dart';
 
 class TodoRepositoryImpl implements TodoRepository {
   //  initializing the Hive database
-  final todoBox = Hive.box(Constants.todoBoxDb);
-
-  @override
-  Future<void> createInitialData() async {
-    // TODO: implement createInitialData
-    throw UnimplementedError();
-  }
+  final todoBox = locator.get<Box>();
 
   @override
   Future<void> createTask({required Task task}) async {
