@@ -2,12 +2,13 @@ import 'package:hive_todo/features/feature_main_screen/domain/repository/todo_re
 
 import '../models/task.dart';
 
-class CreateTaskUseCase {
+class UpdateDatabaseUseCase {
+
   final TodoRepository repository;
 
-  CreateTaskUseCase({required this.repository});
+  UpdateDatabaseUseCase({required this.repository});
 
   Future<void> invoke({required Task task}) async {
-    await repository.createTask(task: task);
+    await repository.updateDatabase(task: task);
   }
 }
