@@ -1,10 +1,8 @@
 class Task {
-  final String taskName;
-  final bool taskCompleted;
-  Function(bool?)? onChanged;
+  String taskName;
+  bool taskCompleted;
 
   Task(
       {required this.taskName,
-      required this.taskCompleted,
-      required this.onChanged});
+      required this.taskCompleted});
 }

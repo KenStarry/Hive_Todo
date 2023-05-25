@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:hive_todo/features/feature_main_screen/presentation/main_screen.dart';
+import 'package:hive_todo/features/feature_main_screen/presentation/provider/tasks_provider.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MultiProvider(
+    providers: [ChangeNotifierProvider(create: (_) => TasksProvider())],
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {

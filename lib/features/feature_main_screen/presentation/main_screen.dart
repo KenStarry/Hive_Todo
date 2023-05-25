@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:hive_todo/features/feature_main_screen/domain/models/task.dart';
 import 'package:hive_todo/features/feature_main_screen/presentation/components/main_appbar.dart';
 import 'package:hive_todo/features/feature_main_screen/presentation/components/todo_card.dart';
+import 'package:hive_todo/features/feature_main_screen/presentation/provider/tasks_provider.dart';
+import 'package:provider/provider.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -12,42 +14,12 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  late final List<Task> _tasks;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _tasks = [
-      Task(
-          taskName: "Eat Breakfast",
-          taskCompleted: false,
-          onChanged: (value) => checkboxChanged(value, 0)),
-      Task(
-          taskName: "Do something fun",
-          taskCompleted: true,
-          onChanged: (value) => checkboxChanged(value, 1)),
-      Task(
-          taskName: "Share memes",
-          taskCompleted: false,
-          onChanged: (value) => checkboxChanged(value, 2)),
-      Task(
-          taskName: "Eat, Sleep and play",
-          taskCompleted: true,
-          onChanged: (value) => checkboxChanged(value, 3)),
-    ];
-  }
-
-  //  checkbox was tapped
-  void checkboxChanged(bool? value, int index) {
-    //  change the values in the list
-    setState(() {
-
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
+
+    final List<Task> tasks = Provider.of<TasksProvider>(context).getTasks;
+    
     return AnnotatedRegion(
       value: SystemUiOverlayStyle(
           systemNavigationBarColor: Colors.deepOrange.shade100,
@@ -58,14 +30,16 @@ class _MainScreenState extends State<MainScreen> {
         body: Padding(
           padding: const EdgeInsets.all(16),
           child: ListView.separated(
-            itemCount: _tasks.length,
+            itemCount: tasks.length,
             physics: const BouncingScrollPhysics(),
             itemBuilder: (context, index) {
               return TodoCard(
-                task: _tasks[index],
+                task: tasks[index],
+                onChanged: (value) => Provider.of<TasksProvider>(context, listen: false).checkboxChanged(value!, index),
               );
             },
-            separatorBuilder: (BuildContext context, int index) => SizedBox(
+            separatorBuilder: (BuildContext context, int index) =>
+                const SizedBox(
               height: 24,
             ),
           ),
