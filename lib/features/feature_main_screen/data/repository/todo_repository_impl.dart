@@ -9,22 +9,13 @@ class TodoRepositoryImpl implements TodoRepository {
   final todoBox = locator.get<Box>();
 
   @override
-  Future<void> createTask({required Task task}) async {
-    await todoBox.put(Constants.todoListKey, [
-      {"taskName": task.taskName, "taskCompleted": task.taskCompleted}
-    ]);
-  }
-
-  @override
   Future<List<Task>?> loadTasks() async {
     List? hiveList = await todoBox.get(Constants.todoListKey);
-    print("Hello there this is my list : ${hiveList}");
     return hiveList?.map((task) => Task.fromMap(task)).toList();
   }
 
   @override
   Future<void> updateDatabase({required List<Map>? tasks}) async {
     await todoBox.put(Constants.todoListKey, tasks);
-    print("Hello there I'm updated : ${todoBox.get(Constants.todoListKey)}");
   }
 }

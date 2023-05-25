@@ -32,7 +32,9 @@ class _MainScreenState extends State<MainScreen> {
                     task: Task(
                         taskName: _controller.value.text,
                         taskCompleted: false));
-                Provider.of<TasksProvider>(context, listen: false).updateDatabase();
+                Provider.of<TasksProvider>(context, listen: false)
+                    .updateDatabase();
+                Navigator.of(context).pop();
               },
               onCancel: () => Navigator.of(context).pop());
         });
@@ -40,7 +42,6 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     Provider.of<TasksProvider>(context).loadTasksEvent();
     final List<Task>? tasks = Provider.of<TasksProvider>(context).getTasks();
 
@@ -61,26 +62,33 @@ class _MainScreenState extends State<MainScreen> {
         ),
         body: Padding(
           padding: const EdgeInsets.all(16),
-          child: tasks == null
+          child: tasks == null || tasks.isEmpty
               ? Text("Nothing Found")
               : ListView.separated(
-                  itemCount: tasks.length,
-                  physics: const BouncingScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return TodoCard(
-                      task: tasks[index],
-                      onChanged: (value) {
-                        Provider.of<TasksProvider>(context, listen: false)
-                            .checkboxChanged(value!, index);
-                      },
-                      onDelete: (context) {},
-                    );
-                  },
-                  separatorBuilder: (BuildContext context, int index) =>
-                      const SizedBox(
-                    height: 24,
-                  ),
-                ),
+            itemCount: tasks.length,
+            physics: const BouncingScrollPhysics(),
+            itemBuilder: (context, index) {
+              return TodoCard(
+                task: tasks[index],
+                onChanged: (value) {
+                  Provider.of<TasksProvider>(context, listen: false)
+                      .checkboxChanged(value!, index);
+                  Provider.of<TasksProvider>(context, listen: false)
+                      .updateDatabase();
+                },
+                onDelete: (context) {
+                  Provider.of<TasksProvider>(context, listen: false)
+                      .deleteTask(index: index);
+                  Provider.of<TasksProvider>(context, listen: false)
+                      .updateDatabase();
+                },
+              );
+            },
+            separatorBuilder: (BuildContext context, int index) =>
+            const SizedBox(
+              height: 24,
+            ),
+          ),
         ),
       ),
     );

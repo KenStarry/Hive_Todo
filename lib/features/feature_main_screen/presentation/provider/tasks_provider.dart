@@ -1,10 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:hive_todo/features/feature_main_screen/data/repository/todo_repository_impl.dart';
 import 'package:hive_todo/features/feature_main_screen/dependency_injection/locator.dart';
-import 'package:hive_todo/features/feature_main_screen/domain/use_cases/create_task_use_case.dart';
-import 'package:hive_todo/features/feature_main_screen/domain/use_cases/load_tasks_use_case.dart';
 import 'package:hive_todo/features/feature_main_screen/domain/use_cases/todo_use_cases.dart';
-import 'package:hive_todo/features/feature_main_screen/domain/use_cases/update_database_use_case.dart';
 
 import '../../domain/models/task.dart';
 
@@ -23,6 +19,7 @@ class TasksProvider extends ChangeNotifier {
     List<Task>? myTasks = _tasks?.map((task) => Task.fromMap(task)).toList();
     //  change the values in the list
     myTasks![index].taskCompleted = value;
+    print(myTasks[index].taskCompleted);
     notifyListeners();
   }
 
@@ -31,9 +28,10 @@ class TasksProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Future<void> createTaskEvent({required Task task}) async {
-  //   await todoUseCases.createTaskUseCase.invoke(task: task);
-  // }
+  void deleteTask({required int index}) {
+    _tasks?.removeAt(index);
+    notifyListeners();
+  }
 
   Future<void> updateDatabase() async {
     await todoUseCases.updateDatabaseUseCase.invoke(tasks: _tasks);
