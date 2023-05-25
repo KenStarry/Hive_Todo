@@ -19,7 +19,7 @@ class TasksProvider extends ChangeNotifier {
     List<Task>? myTasks = _tasks?.map((task) => Task.fromMap(task)).toList();
     //  change the values in the list
     myTasks![index].taskCompleted = value;
-    print(myTasks[index].taskCompleted);
+    print("Check changed to ${value}");
     notifyListeners();
   }
 

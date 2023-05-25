@@ -63,32 +63,37 @@ class _MainScreenState extends State<MainScreen> {
         body: Padding(
           padding: const EdgeInsets.all(16),
           child: tasks == null || tasks.isEmpty
-              ? Text("Nothing Found")
+              ? const Center(
+                child: Text(
+                    "No Tasks found",
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
+              )
               : ListView.separated(
-            itemCount: tasks.length,
-            physics: const BouncingScrollPhysics(),
-            itemBuilder: (context, index) {
-              return TodoCard(
-                task: tasks[index],
-                onChanged: (value) {
-                  Provider.of<TasksProvider>(context, listen: false)
-                      .checkboxChanged(value!, index);
-                  Provider.of<TasksProvider>(context, listen: false)
-                      .updateDatabase();
-                },
-                onDelete: (context) {
-                  Provider.of<TasksProvider>(context, listen: false)
-                      .deleteTask(index: index);
-                  Provider.of<TasksProvider>(context, listen: false)
-                      .updateDatabase();
-                },
-              );
-            },
-            separatorBuilder: (BuildContext context, int index) =>
-            const SizedBox(
-              height: 24,
-            ),
-          ),
+                  itemCount: tasks.length,
+                  physics: const BouncingScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return TodoCard(
+                      task: tasks[index],
+                      onChanged: (value) {
+                        Provider.of<TasksProvider>(context, listen: false)
+                            .checkboxChanged(value!, index);
+                        Provider.of<TasksProvider>(context, listen: false)
+                            .updateDatabase();
+                      },
+                      onDelete: (context) {
+                        Provider.of<TasksProvider>(context, listen: false)
+                            .deleteTask(index: index);
+                        Provider.of<TasksProvider>(context, listen: false)
+                            .updateDatabase();
+                      },
+                    );
+                  },
+                  separatorBuilder: (BuildContext context, int index) =>
+                      const SizedBox(
+                    height: 24,
+                  ),
+                ),
         ),
       ),
     );
