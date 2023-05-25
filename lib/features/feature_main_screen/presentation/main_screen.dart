@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive_todo/features/feature_main_screen/domain/models/task.dart';
+import 'package:hive_todo/features/feature_main_screen/presentation/components/dialog_box.dart';
 import 'package:hive_todo/features/feature_main_screen/presentation/components/main_appbar.dart';
 import 'package:hive_todo/features/feature_main_screen/presentation/components/todo_card.dart';
 import 'package:hive_todo/features/feature_main_screen/presentation/provider/tasks_provider.dart';
@@ -14,6 +15,18 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+
+  //  my controller
+  final _controller = TextEditingController();
+
+  void createNewTask() {
+    showDialog(context: context, builder: (context){
+      return DialogBox(controller: _controller,
+      onSave: (){},
+      onCancel: () => Navigator.of(context).pop());
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final List<Task> tasks = Provider.of<TasksProvider>(context).getTasks;
@@ -27,7 +40,7 @@ class _MainScreenState extends State<MainScreen> {
         appBar: mainAppBar(),
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.deepOrange.shade300,
-          onPressed: () {},
+          onPressed: createNewTask,
           child: const Icon(
             Icons.add,
             color: Colors.white,
