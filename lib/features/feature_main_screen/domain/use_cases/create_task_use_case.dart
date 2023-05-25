@@ -8,6 +8,7 @@ class CreateTaskUseCase {
   CreateTaskUseCase({required this.repository});
 
   Future<void> invoke({required Task task}) async {
+    print("Hello there use case I'm create");
     await repository.createTask(task: task);
   }
 }

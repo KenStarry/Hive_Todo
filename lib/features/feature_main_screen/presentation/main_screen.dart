@@ -17,21 +17,32 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-
   //  my controller
   final _controller = TextEditingController();
 
   void createNewTask() {
-    showDialog(context: context, builder: (context){
-      return DialogBox(controller: _controller,
-      onSave: (){},
-      onCancel: () => Navigator.of(context).pop());
-    });
+    showDialog(
+        context: context,
+        builder: (context) {
+          return DialogBox(
+              controller: _controller,
+              onSave: () {
+                //  create a new task in Hive
+                Provider.of<TasksProvider>(context, listen: false).addTask(
+                    task: Task(
+                        taskName: _controller.value.text,
+                        taskCompleted: false));
+                Provider.of<TasksProvider>(context, listen: false).updateDatabase();
+              },
+              onCancel: () => Navigator.of(context).pop());
+        });
   }
 
   @override
   Widget build(BuildContext context) {
-    final List<Task> tasks = Provider.of<TasksProvider>(context).getTasks;
+
+    Provider.of<TasksProvider>(context).loadTasksEvent();
+    final List<Task>? tasks = Provider.of<TasksProvider>(context).getTasks();
 
     return AnnotatedRegion(
       value: SystemUiOverlayStyle(
@@ -50,24 +61,26 @@ class _MainScreenState extends State<MainScreen> {
         ),
         body: Padding(
           padding: const EdgeInsets.all(16),
-          child: ListView.separated(
-            itemCount: tasks.length,
-            physics: const BouncingScrollPhysics(),
-            itemBuilder: (context, index) {
-              return TodoCard(
-                task: tasks[index],
-                onChanged: (value) {
-                  Provider.of<TasksProvider>(context, listen: false)
-                      .checkboxChanged(value!, index);
-                },
-                onDelete: (context){},
-              );
-            },
-            separatorBuilder: (BuildContext context, int index) =>
-                const SizedBox(
-              height: 24,
-            ),
-          ),
+          child: tasks == null
+              ? Text("Nothing Found")
+              : ListView.separated(
+                  itemCount: tasks.length,
+                  physics: const BouncingScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return TodoCard(
+                      task: tasks[index],
+                      onChanged: (value) {
+                        Provider.of<TasksProvider>(context, listen: false)
+                            .checkboxChanged(value!, index);
+                      },
+                      onDelete: (context) {},
+                    );
+                  },
+                  separatorBuilder: (BuildContext context, int index) =>
+                      const SizedBox(
+                    height: 24,
+                  ),
+                ),
         ),
       ),
     );

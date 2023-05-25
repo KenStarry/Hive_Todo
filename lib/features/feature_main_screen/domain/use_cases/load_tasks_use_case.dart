@@ -8,7 +8,7 @@ class LoadTasksUseCase {
 
   LoadTasksUseCase({required this.repository});
 
-  Future<List<Task>> invoke() async {
+  Future<List<Task>?> invoke() async {
     return await repository.loadTasks();
   }
 }

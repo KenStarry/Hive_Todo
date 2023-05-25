@@ -8,7 +8,7 @@ class UpdateDatabaseUseCase {
 
   UpdateDatabaseUseCase({required this.repository});
 
-  Future<void> invoke({required Task task}) async {
-    await repository.updateDatabase(task: task);
+  Future<void> invoke({required List<Map>? tasks}) async {
+    await repository.updateDatabase(tasks: tasks);
   }
 }

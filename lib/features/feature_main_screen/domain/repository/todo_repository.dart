@@ -8,8 +8,8 @@ abstract class TodoRepository {
   Future<void> createTask({required Task task});
 
   //  load all tasks
-  Future<List<Task>> loadTasks();
+  Future<List<Task>?> loadTasks();
 
   //  update database
-  Future<void> updateDatabase({required Task task});
+  Future<void> updateDatabase({required List<Map>? tasks});
 }
