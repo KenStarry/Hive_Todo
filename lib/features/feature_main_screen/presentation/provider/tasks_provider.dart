@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:hive_todo/features/feature_main_screen/data/repository/todo_repository_impl.dart';
+import 'package:hive_todo/features/feature_main_screen/dependency_injection/locator.dart';
 import 'package:hive_todo/features/feature_main_screen/domain/use_cases/create_task_use_case.dart';
 import 'package:hive_todo/features/feature_main_screen/domain/use_cases/load_tasks_use_case.dart';
 import 'package:hive_todo/features/feature_main_screen/domain/use_cases/todo_use_cases.dart';
@@ -9,11 +10,7 @@ import '../../domain/models/task.dart';
 
 class TasksProvider extends ChangeNotifier {
   //  getting our use cases
-  final TodoUseCases todoUseCases = TodoUseCases(
-      createTaskUseCase: CreateTaskUseCase(repository: TodoRepositoryImpl()),
-      loadTasksUseCase: LoadTasksUseCase(repository: TodoRepositoryImpl()),
-      updateDatabaseUseCase:
-      UpdateDatabaseUseCase(repository: TodoRepositoryImpl()));
+  final TodoUseCases todoUseCases = locator.get<TodoUseCases>();
 
   List<Map>? _tasks = [];
 
